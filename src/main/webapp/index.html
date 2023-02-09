@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Guesser Game</title>
+    <style>
+        section.container { margin: 3em; }
+    </style>
+</head>
+<body>
+
+
+	<p>Guess the number between 1 and 10:</p>
+	<button type="button" onclick="playTheGame(1)">1</button>
+	<button type="button" onclick="playTheGame(2)">2</button>
+	<button type="button" onclick="playTheGame(3)">3</button>
+	<button type="button" onclick="playTheGame(4)">4</button>
+	<button type="button" onclick="playTheGame(5)">5</button>
+	<button type="button" onclick="playTheGame(6)">6</button>
+	<button type="button" onclick="playTheGame(7)">7</button>
+	<button type="button" onclick="playTheGame(8)">8</button>
+	<button type="button" onclick="playTheGame(9)">9</button>
+	<button type="button" onclick="playTheGame(10)">10</button>
+	
+	<script>
+
+	let magicNumber = 0;
+	
+	function playTheGame(number) {
+        if (number==magicNumber) {
+			alert("You guessed right! It is " +magicNumber);
+		} else {
+			alert("Wrong! Guess again!");
+		}
+    }
+	
+	function setMagicNumber(number) {
+        console.log("WASM code has called the JS setMagicNumber method.")
+		magicNumber = number
+		console.log("WASM set the magic number to: " + magicNumber)
+    }
+	
+	WebAssembly.instantiateStreaming(
+	fetch('wasm/complexlogic.wasm'), {env: {setMagicNumber}})
+	  .then(module => { 
+	  console.log("Calling the wasm module from JavaScript.")
+	  module.instance.exports.getMagicNumber(10)
+	});
+	
+	
+	</script>
+	
+	
+</body>
+</html>
